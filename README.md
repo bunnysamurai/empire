@@ -89,7 +89,6 @@ As units move, they lift a certain amount of the fog-of-war.  Which just reveals
 ## Attack
 Adjacent assaults, only.  For now.
 
-
 Each unit checks 8-way adajcent.  If it can an enemy, it can attack.
 
 Each unit will have a few characteristics: a range, and a number of attacks.
@@ -112,6 +111,9 @@ constexpr MapPoint center { empire_center( current_player() ) };
 
 /* Points cost goes up the further from center you are, to a max penality.
      Can just increase the value linearly?  Map penality from [0, MAX_LOGI_COST] to the map's radial size [0, max(map_width, map_height)]
+	 f(dist) = m * dist
+	 OR exponentially?
+	 f(dist) = dist ^ x, where x is some value > 1
 */
 constexpr auto radial_dist { max( get_map_size() ) };
 constexpr auto point_cost { map( 0, MAX_LOGI_COST, 0, radial_dist) };
@@ -119,6 +121,41 @@ constexpr auto point_cost { map( 0, MAX_LOGI_COST, 0, radial_dist) };
 // later
 constexpr auto total_cost { point_cost( requested_placement_point() ) + unit_cost( requested_unit() ) };
 ```
+
+# Software Design
+There's game state, and there are the operations that mutate the game state.
+
+Game state can be broken down into the following:
+* The Map
+	* Size/Shape
+	* Tile types at each location
+* The Units
+	* Their type
+	* Their player
+	* Their location
+* The Turn 
+	* Count
+	* The Active Player
+* The Cities
+	* Their player
+	* Their name
+* The Player
+	* Name
+	* Colour
+	* Resource Count?
+
+Game state is mutated by the following operations:
+* Turn End/Start
+	* Change active player
+	* Increment Count
+	* Generate Resources
+* Attack
+	* remove a unit
+* Move
+	* change location of a unit
+* Place New
+	* insert a unit
+
 
 
 
