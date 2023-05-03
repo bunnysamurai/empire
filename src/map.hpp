@@ -28,9 +28,9 @@ template <class Parameters> struct Map {
 };
 
 template <class Parameters> constexpr void init() noexcept {
-  // TODO stub, just makes an ocean map
+  // TODO stub, just makes a grasslands map
   for (size_t ii = 0; ii < Map<Parameters>::map_.size(); ++ii) {
-    Map<Parameters>::map_[ii] = Tile{TileType::OCEAN, TileState::OKAY};
+    Map<Parameters>::map_[ii] = Tile{TileType::GRASSLAND, TileState::OKAY};
   }
 }
 template <class Parameters>
